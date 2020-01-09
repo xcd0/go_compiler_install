@@ -19,7 +19,7 @@ DEC="tar xzvf"  # 伸張コマンド
 # OS判定して変数OSとEXTとDEC弄る
 if [ "$(uname)" == "Darwin" ]; then
 	OS='darwin'
-if [ "$(uname)" == "FreeBSD" ]; then
+elif [ "$(uname)" == "FreeBSD" ]; then
 	OS='freebsd'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	OS='linux'
@@ -343,9 +343,6 @@ function goChangeDst(){ # {{{
 } # }}}
 
 function goPackageInstall(){ # {{{
-	if ! ( type "brew" > /dev/null 2>&1 ); then
-		brew install peco &
-	fi
 	go get -u -v github.com/motemen/gore/cmd/gore &
 	go get -u -v github.com/mdempsky/gocode &
 	go get -u -v github.com/nsf/gocode &
