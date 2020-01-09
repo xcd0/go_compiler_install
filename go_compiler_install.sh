@@ -618,9 +618,12 @@ EOS
 # インタラクティブにするか 引数だけにするか
 if [ $# -ne 0 ]; then
 	# 引数だけモード
-	while getopts v:d:fph OPT
+	while getopts iv:d:fph OPT
 	do
 		case $OPT in
+			"i" )
+				FLG_I="TRUE"
+				;;
 			"v" )
 				VERSION="$OPTARG"
 				FLG_V="TRUE"
