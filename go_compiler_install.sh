@@ -343,32 +343,30 @@ function goChangeDst(){ # {{{
 } # }}}
 
 function goPackageInstall(){ # {{{
-	if [ "$input2" == "y" ]; then
-		if ! ( type "brew" > /dev/null 2>&1 ); then
-			brew install peco &
-		fi
-		go get -u -v github.com/motemen/gore/cmd/gore &
-		go get -u -v github.com/mdempsky/gocode &
-		go get -u -v github.com/nsf/gocode &
-		go get -u -v github.com/motemen/ghq &
-		go get -u -v github.com/k0kubun/pp &
-		go get -u -v golang.org/x/tools/cmd/... &
-		go get -u -v golang.org/x/lint/golint &
-		go get -u -v golang.org/x/tools/cmd/goimports &
-		go get -u -v github.com/rogpeppe/godef &
-		go get -u -v github.com/akavel/rsrc &
-		go get -u -v github.com/google/go-github/github &
-		go get -u -v github.com/russross/blackfriday &
-		go get -u -v github.com/shurcooL/github_flavored_markdown &
-		go get -u -v github.com/tdewolff/minify &
-		go get -u -v github.com/tdewolff/minify/css &
-		go get -u -v github.com/xcd0/go-nkf &
-		bash "cd $GOPATH/src/github.com/akavel/rsrc && go build" &
-
-		wait
-		git config --global ghq.root $GOPATH/src
-		echo "よく使うパッケージのインストールが完了しました。"
+	if ! ( type "brew" > /dev/null 2>&1 ); then
+		brew install peco &
 	fi
+	go get -u -v github.com/motemen/gore/cmd/gore &
+	go get -u -v github.com/mdempsky/gocode &
+	go get -u -v github.com/nsf/gocode &
+	go get -u -v github.com/motemen/ghq &
+	go get -u -v github.com/k0kubun/pp &
+	go get -u -v golang.org/x/tools/cmd/... &
+	go get -u -v golang.org/x/lint/golint &
+	go get -u -v golang.org/x/tools/cmd/goimports &
+	go get -u -v github.com/rogpeppe/godef &
+	go get -u -v github.com/akavel/rsrc &
+	go get -u -v github.com/google/go-github/github &
+	go get -u -v github.com/russross/blackfriday &
+	go get -u -v github.com/shurcooL/github_flavored_markdown &
+	go get -u -v github.com/tdewolff/minify &
+	go get -u -v github.com/tdewolff/minify/css &
+	go get -u -v github.com/xcd0/go-nkf &
+	bash "cd $GOPATH/src/github.com/akavel/rsrc && go build" &
+
+	wait
+	git config --global ghq.root $GOPATH/src
+	echo "よく使うパッケージのインストールが完了しました。"
 } # }}}
 
 function interactiveMode(){ # {{{1
