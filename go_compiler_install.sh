@@ -19,6 +19,8 @@ DEC="tar xzvf"  # 伸張コマンド
 # OS判定して変数OSとEXTとDEC弄る
 if [ "$(uname)" == "Darwin" ]; then
 	OS='darwin'
+if [ "$(uname)" == "FreeBSD" ]; then
+	OS='freebsd'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	OS='linux'
 elif [ "$(expr substr $(uname -s) 1 4)" == "MSYS" ] \
@@ -371,7 +373,7 @@ function goPackageInstall(){ # {{{
 
 function interactiveMode(){ # {{{1
 	# GOPATHのチェック {{{2
-	if [ "$GOPATH" != "$GO_INSTALL_DIR/go_" ]; then
+	if [ "$GOPATH" != "$GO_INSTALL_DIR/go" ]; then
 		# GOPATH=$GO_INSTALL_DIR/go になっていない
 		echo ""
 		echo "エラー : 環境変数が正しく設定されていません。"
