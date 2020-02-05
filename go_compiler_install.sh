@@ -7,7 +7,7 @@ GO_INSTALL_DIR=$HOME/work/go
 
 # インストールしたいバージョンに合わせる
 # go1.13.3のように頭にgoをつける
-VERSION=go1.13.6
+VERSION=go1.13.7
 
 ################################################################################
 
@@ -103,30 +103,38 @@ EOS
 } #}}}
 
 function changeArch(){ # {{{
-	while :
+	loop="true"
+	
+	while [ "$loop" = "true" ]
 	do
+		echo "---------------------------------------------------------"
 		echo "アーキテクチャを選択してください。"
 		showSupportInfo
 		echo "現在指定されているOSは $OS です。"
-		if [ "$OS" == "freebsd" -o "$OS" == "windows"]; then
+		echo "現在指定されているアーキテクチャは $ARCH です。"
+		if [ "$OS" == "freebsd" ] || [ "$OS" == "windows" ] ; then
 			echo "1 : amd64"
 			echo "2 : 386"
 			echo "q : アーキテクチャの選択を終了 (規定値にリセット)"
-			echo -n "[1/2] : "
-			read $num
-			case $num in
+			echo -n "[1/2/q] : "
+			read num
+			echo "$num が入力されました"
+			case "$num" in
 				"1" )
 					ARCH=amd64
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"2" )
 					ARCH=386
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"q" )
-					echo "アーキテクチャを規定値 amd64 に設定して"
 					echo "アーキテクチャの選択を終了します。"
-					ARCH=amd64
+					loop="false"
 					break
 					;;
 			esac
@@ -134,16 +142,17 @@ function changeArch(){ # {{{
 			echo "1 : amd64"
 			echo "q : アーキテクチャの選択を終了"
 			echo -n "[1/q] : "
-			read $num
-			case $num in
+			read num
+			case "$num" in
 				"1" )
 					ARCH=amd64
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"q" )
-					echo "アーキテクチャを規定値 amd64 に設定して"
 					echo "アーキテクチャの選択を終了します。"
-					ARCH=amd64
+					loop="false"
 					break
 					;;
 			esac
@@ -156,36 +165,47 @@ function changeArch(){ # {{{
 			echo "6 : ppc64le"
 			echo "q : アーキテクチャの選択を終了"
 			echo -n "[1/2/q] : "
-			read $num
-			case $num in
+			read num
+			case "$num" in
 				"1" )
 					ARCH=amd64
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"2" )
 					ARCH=386
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"3" )
 					ARCH=armv6l
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"4" )
 					ARCH=arm64
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"5" )
 					ARCH=s390
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"6" )
 					ARCH=ppc64le
+					echo "アーキテクチャを $ARCH に設定しました。"
+					loop="false"
 					break
 					;;
 				"q")
-					echo "アーキテクチャを規定値 amd64 に設定して"
 					echo "アーキテクチャの選択を終了します。"
-					ARCH=amd64
+					loop="false"
 					break
 					;;
 			esac
@@ -360,7 +380,8 @@ function goPackageInstall(){ # {{{
 	go get -u -v github.com/shurcooL/github_flavored_markdown &
 	go get -u -v github.com/tdewolff/minify &
 	go get -u -v github.com/tdewolff/minify/css &
-	go get -u -v github.com/xcd0/go-nkf &
+	go get -u -v github.com/jteeuwen/go-bindata/... &
+	go get -u -v github.com/monochromegane/go-bincode/... &
 	bash "cd $GOPATH/src/github.com/akavel/rsrc && go build" &
 
 	wait
