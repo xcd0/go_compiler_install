@@ -254,6 +254,8 @@ function goInstall(){ # {{{1
 	# ダウンロード & 伸張
 	echo wget https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
 	wget https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
+	#echo aria2c -x 16 https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
+	#aria2c -x 16 https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
 
 	${DEC} ${VERSION}.${OS}-${ARCH}.${EXT}
 	rm ${VERSION}.${OS}-${ARCH}.${EXT}
