@@ -7,7 +7,9 @@ GO_INSTALL_DIR=$HOME/work/go
 
 # インストールしたいバージョンに合わせる
 # go1.13.3のように頭にgoをつける
-VERSION=go1.16.2
+# ファイル書き換えるの面倒なので別ファイルを置くことにした
+# go1で始まるファイルを同じディレクトリに置く
+VERSION=`ls go1*`
 
 ################################################################################
 
@@ -685,7 +687,8 @@ if [ $# -ne 0 ]; then
 
 else
 	# 引数がないので インタラクティブにする
-	showCommandHelp
+	#showCommandHelp
+	interactiveMode
 	exit
 fi
 
