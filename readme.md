@@ -1,3 +1,10 @@
+# golang コンパイラを簡単にインストールするシェルスクリプト
+
+クローンして`install_lastest.sh`を実行するだけで最新バージョンがインストールされる。
+
+<details><summary>以下古い記述</summary><div>
+
+
 # Goのバージョン管理シェルスクリプト
 
 https://qiita.com/xcd0/items/cc5c286228994d8183d1
@@ -122,5 +129,6 @@ GO_INSTALL_DIR=$HOME/work/go
 ```
 
 の部分書き換えてください。
+</div></details>
 </div></details>
 
