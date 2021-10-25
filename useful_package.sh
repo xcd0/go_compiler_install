@@ -18,6 +18,7 @@ go install golang.org/x/tools/cmd/...@latest  &
 go install golang.org/x/tools/cmd/goimports@latest  &
 go install golang.org/x/tools/gopls@latest &
 go install github.com/nametake/golangci-lint-langserver@latest &
+go install github.com/peco/peco/cmd/peco@latest
 
 wait
 git config --global ghq.root $GOPATH/src
