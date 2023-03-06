@@ -55,6 +55,9 @@ function envInit(){ #{{{
 		OS='freebsd'
 	elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 		OS='linux'
+		if [ "$(uname -m)" == "armv6l" ]; then
+			ARCH="armv6l"
+		fi
 	elif [ "$(expr substr $(uname -s) 1 4)" == "MSYS" ] \
 		|| [ "$(expr substr $(uname -s) 1 5)" == "MINGW" ]; then
 			OS='windows'
