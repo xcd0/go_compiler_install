@@ -155,11 +155,22 @@ function goInstall(){ # {{{1
 	# シンボリックリンクを張る
 	cd $GO_INSTALL_DIR; rm -rf go; ln -s ${VERSION} go
 
+	if !(type "go" > /dev/null 2>&1); then
+		export PATH=$GOBIN:$GOROOT/bin:$PATH
+	fi
+	go version
+
 } # }}}1
+
+function postProcess(){
+	read -n1 -p "ok? (y/N): " yn; [[ $yn = [yY] ]] && bash ./useful_package.sh > /dev/null 2>&1 &; echo 1分程度かかるためバックグラウンドでインストールしています。 || echo "よく使うパッケージをインストールしませんでした。./useful_package.shからインストールできます。"
+}
+
 
 envInit
 preprocess
 goInstall
+postProcess
 
 echo ${VERSION}のインストールが完了しました。
 echo 環境変数の読み込みのためにシェルを再起動してください。

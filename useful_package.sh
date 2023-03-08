@@ -22,3 +22,14 @@ go install github.com/peco/peco/cmd/peco@latest
 
 wait
 git config --global ghq.root $GOPATH/src
+
+if !(type "curl" > /dev/null 2>&1); then
+	until sudo apt update; do sleep 1; done
+	until sudo apt install curl -y --fix-missing; do sleep 1; done
+fi
+if !(type "golangci-lint" > /dev/null 2>&1); then
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
+		| sh -s -- -b $(go env GOPATH)/bin 
+	golangci-lint --version
+fi
+
