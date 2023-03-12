@@ -163,7 +163,14 @@ function goInstall(){ # {{{1
 } # }}}1
 
 function postProcess(){
-	read -n1 -p "ok? (y/N): " yn; [[ $yn = [yY] ]] && bash ./useful_package.sh > /dev/null 2>&1 &; echo 1分程度かかるためバックグラウンドでインストールしています。 || echo "よく使うパッケージをインストールしませんでした。./useful_package.shからインストールできます。"
+	echo "Golangでよく使われるパッケージをインストールしますか？"
+	echo "これは時間がかかるのでバックグラウンドで実行します。"
+	echo "今実行せずとも./useful_package.shを実行すればインストールできます。"
+	read -n1 -p "よく使うパッケージをインストールしますか? (y/N): " yn
+	[[ $yn = [yY] ]] \
+		&& bash ./useful_package.sh > /dev/null 2>&1 \
+		& echo 1分程度かかるためバックグラウンドでインストールしています。 \
+		|| echo "よく使うパッケージをインストールしませんでした。 ./useful_package.sh からインストールできます。"
 }
 
 
