@@ -173,11 +173,10 @@ function postProcess(){
 		|| echo "よく使うパッケージをインストールしませんでした。 ./useful_package.sh からインストールできます。"
 }
 
-
 envInit
 preprocess
 goInstall
-postProcess
+#postProcess
 
 echo ${VERSION}のインストールが完了しました。
 echo 環境変数の読み込みのためにシェルを再起動してください。
