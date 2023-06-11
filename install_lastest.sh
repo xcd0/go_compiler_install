@@ -8,35 +8,53 @@ GO_INSTALL_DIR=$HOME/go
 ################################################################################
 # インストールするコンパイラのバージョン go1.13.3のように頭にgoをつける
 ################################################################################
-VERSION=$(
-	# https://golang.org/dl/ を一旦テキストとして保存する
-	# 別に保存する必要はないがデバッグ用
-	if [ ! -e golang.org-dl-index.html ]; then
-		chmod 660 ~/.wget-hsts 2> /dev/null
-		wget -q -O golang.org-dl-index.html https://golang.org/dl/
-		if [ $? -eq 4 ] || [ $? -eq 8 ]; then
-			echo wget -q -O golang.org-dl-index.html https://golang.org/dl/
-			echo "404が返されました。ネットワークの接続を確認してください。"
-			rm golang.org-dl-index.html
+
+tmp=""
+while getopts :v: OPT; do
+	case $OPT in
+		v) tmp="$OPTARG" ;;
+		:);;
+		?);;
+	esac
+done
+
+if [ "$tmp" != "" ]; then
+	# バージョン指定があった。
+	# 書式はgo1.xx.xx
+	# 書式が不正であってもここではチェックしない
+	VERSION="$tmp"
+else
+	VERSION=$(
+
+		# https://golang.org/dl/ を一旦テキストとして保存する
+		# 別に保存する必要はないがデバッグ用
+		if [ ! -e golang.org-dl-index.html ]; then
+			chmod 660 ~/.wget-hsts 2> /dev/null
+			wget -q -O golang.org-dl-index.html https://golang.org/dl/
+			if [ $? -eq 4 ] || [ $? -eq 8 ]; then
+				echo wget -q -O golang.org-dl-index.html https://golang.org/dl/
+				echo "404が返されました。ネットワークの接続を確認してください。"
+				rm golang.org-dl-index.html
+			fi
 		fi
-	fi
 
-	# index.htmlからdownloadBoxの部分だけ取り出す
-	str=`cat golang.org-dl-index.html | grep downloadBox`
-	# grepするとこんな感じになる
-	# <a class="download downloadBox" href="/dl/go1.17.1.windows-amd64.msi">
-	# <a class="download downloadBox" href="/dl/go1.17.1.darwin-amd64.pkg">
-	# <a class="download downloadBox" href="/dl/go1.17.1.linux-amd64.tar.gz">
-	# <a class="download downloadBox" href="/dl/go1.17.1.src.tar.gz">
+		# index.htmlからdownloadBoxの部分だけ取り出す
+		str=`cat golang.org-dl-index.html | grep downloadBox`
+		# grepするとこんな感じになる
+		# <a class="download downloadBox" href="/dl/go1.17.1.windows-amd64.msi">
+		# <a class="download downloadBox" href="/dl/go1.17.1.darwin-amd64.pkg">
+		# <a class="download downloadBox" href="/dl/go1.17.1.linux-amd64.tar.gz">
+		# <a class="download downloadBox" href="/dl/go1.17.1.src.tar.gz">
 
-	# awkで1行目の上の例でいうgo1.17.1の部分だけを切り出す
-	echo $str | awk 'NR==1 {      # 1行目だけ処理する
-		split($4, tmp, "/")       # 半角空白区切りで4列目のhrefで始まる部分を/区切りで分割してbに入れる tmp[3]が go1.17.1.windows-amd64.msi"> のようになる
-		i=index(tmp[3], "w")      # tmp[3]の中で .windows-amd64.msi"> がいらないので 文字列の先頭からのwの位置を調べiに入れる
-		v=substr(tmp[3], 1, i-2)  # tmp[3]の先頭からi-2までを切り出す (awkは1からカウントする)
-		print v                   # 切り出した文字列を標準出力に出力する
-	}'
-)
+		# awkで1行目の上の例でいうgo1.17.1の部分だけを切り出す
+		echo $str | awk 'NR==1 {      # 1行目だけ処理する
+			split($4, tmp, "/")       # 半角空白区切りで4列目のhrefで始まる部分を/区切りで分割してbに入れる tmp[3]が go1.17.1.windows-amd64.msi"> のようになる
+			i=index(tmp[3], "w")      # tmp[3]の中で .windows-amd64.msi"> がいらないので 文字列の先頭からのwの位置を調べiに入れる
+			v=substr(tmp[3], 1, i-2)  # tmp[3]の先頭からi-2までを切り出す (awkは1からカウントする)
+			print v                   # 切り出した文字列を標準出力に出力する
+		}'
+	)
+fi
 
 echo lastest version is $VERSION
 
