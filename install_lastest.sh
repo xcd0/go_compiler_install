@@ -160,8 +160,8 @@ function goInstall(){ # {{{1
 
 	# ダウンロード & 伸張
 	echo wget https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
-	if aria2; then
-		aria2 -x15 -s10 https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}  https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
+	if command -v aria2c; then
+		aria2c -x15 -s10 https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}  https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
 	else
 		wget https://dl.google.com/go/${VERSION}.${OS}-${ARCH}.${EXT}
 	fi
